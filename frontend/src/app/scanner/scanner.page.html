@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Scanner</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home">Inicio</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <main class="scanner-shell">
+    <section class="scanner-hero">
+      <span class="app-pill">Modulo scanner</span>
+      <h1>Analisis con Obsidian y Ollama</h1>
+      <p>Captura la etiqueta del medicamento y analiza el texto detectado con la personalidad definida en Obsidian.</p>
+    </section>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Camara</ion-card-title>
+        <ion-card-subtitle>Captura o carga una foto de la etiqueta.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="camera-frame">
+          <video #cameraVideo [class.hidden]="!cameraActive" playsinline muted></video>
+          <img *ngIf="!cameraActive && capturedImage" [src]="capturedImage" alt="Captura del medicamento">
+          <div *ngIf="!cameraActive && !capturedImage" class="camera-empty">
+            <span>Sin imagen</span>
+          </div>
+          <canvas #captureCanvas hidden></canvas>
+        </div>
+
+        <div class="camera-actions">
+          <ion-button fill="outline" [disabled]="cameraLoading || cameraActive" (click)="startCamera()">
+            {{ cameraLoading ? 'Abriendo...' : 'Abrir camara' }}
+          </ion-button>
+          <ion-button fill="outline" [disabled]="!cameraActive" (click)="capturePhoto()">Capturar</ion-button>
+          <ion-button fill="outline" color="medium" [disabled]="!cameraActive" (click)="stopCamera()">Detener</ion-button>
+          <label class="image-picker">
+            <input type="file" accept="image/png,image/jpeg,image/webp" (change)="chooseImage($event)">
+            <span>Cargar imagen</span>
+          </label>
+          <ion-button fill="outline" [disabled]="ocrLoading || !capturedImage" (click)="extractTextFromImage()">
+            {{ ocrLoading ? 'Leyendo...' : 'Extraer texto' }}
+          </ion-button>
+          <ion-button [disabled]="ocrLoading || loading || !capturedImage" (click)="analyzeImage()">
+            {{ ocrLoading || loading ? 'Procesando...' : 'Analizar imagen' }}
+          </ion-button>
+        </div>
+
+        <ion-note *ngIf="ocrProgress" class="ocr-progress">{{ ocrProgress }}</ion-note>
+
+        <ion-text color="danger" *ngIf="cameraMessage">
+          <p class="message">{{ cameraMessage }}</p>
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Texto del medicamento</ion-card-title>
+        <ion-card-subtitle>El OCR llena este texto; puedes corregirlo antes de analizar.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-textarea
+          [(ngModel)]="ocrText"
+          rows="6"
+          label="Texto detectado"
+          labelPlacement="stacked"
+          placeholder="Ej. Ibuprofeno 400 mg"
+        ></ion-textarea>
+
+        <div class="examples">
+          <ion-button fill="clear" size="small" (click)="useExample('Ibuprofeno 400 mg tabletas')">Ibuprofeno</ion-button>
+          <ion-button fill="clear" size="small" (click)="useExample('Paracetamol 500 mg tabletas')">Paracetamol</ion-button>
+          <ion-button fill="clear" size="small" (click)="useExample('Aspirina acido acetilsalicilico')">Aspirina</ion-button>
+        </div>
+
+        <ion-button expand="block" [disabled]="loading" (click)="analyze()">
+          {{ loading ? 'Analizando...' : 'Analizar con IA' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-text color="danger" *ngIf="message">
+      <p class="message">{{ message }}</p>
+    </ion-text>
+
+    <ion-card *ngIf="result" class="result-card" [class.safe]="result.result_level === 'safe'" [class.warning]="result.result_level === 'warning'" [class.danger]="result.result_level === 'danger'">
+      <ion-card-header>
+        <span class="level-badge">{{ levelLabel }}</span>
+        <ion-card-title>{{ result.medicine?.name || 'Medicamento no identificado' }}</ion-card-title>
+        <ion-card-subtitle>
+          Generado por {{ result.generated_by === 'ollama' ? 'Ollama qwen3:8b' : 'reglas locales' }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <h2>Resultado de reglas</h2>
+        <p>{{ result.rule_message }}</p>
+
+        <h2>Explicacion</h2>
+        <p>{{ result.ai_message }}</p>
+
+        <div class="meta-grid">
+          <span>Guardado</span>
+          <strong>{{ result.saved ? 'Si' : 'No' }}</strong>
+          <span>Obsidian</span>
+          <strong>{{ result.obsidian_files.length }} notas</strong>
+          <span>IA local</span>
+          <strong>{{ result.ai_available ? 'Disponible' : 'Fallback' }}</strong>
+        </div>
+
+        <ion-note *ngIf="result.ai_error">
+          Ollama no respondio: {{ result.ai_error }}
+        </ion-note>
+      </ion-card-content>
+    </ion-card>
+  </main>
+</ion-content>

@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-title>MEDICINESCAN</ion-title>
     <ion-buttons slot="end">
+      <ion-button routerLink="/scanner">Scanner</ion-button>
       <ion-button routerLink="/profile">Perfil</ion-button>
       <ion-button (click)="logout()">Salir</ion-button>
     </ion-buttons>
@@ -12,8 +13,8 @@
   <main class="home-shell">
     <section class="hero">
       <span class="app-pill">Modulo 2</span>
-      <h1>Perfil conectado y listo para editar</h1>
-      <p>La app lee tus datos desde la API PHP y permite editar informacion personal, alergias y foto.</p>
+      <h1>Perfil conectado y scanner con IA</h1>
+      <p>La app lee tus datos desde la API PHP, analiza texto de medicamentos y usa la personalidad guardada en Obsidian.</p>
     </section>
 
     <section class="dashboard-grid">
@@ -46,9 +47,10 @@
         <ion-card-content>
           <ul>
             <li><strong>Perfil:</strong> edicion de datos, alergias y foto.</li>
-            <li><strong>Scanner:</strong> camara, OCR y alertas.</li>
-            <li><strong>AR:</strong> capa visual para resultados.</li>
+            <li><strong>Scanner:</strong> analisis con reglas, Obsidian y Ollama.</li>
+            <li><strong>AR/OCR:</strong> siguiente capa para camara y resultados visuales.</li>
           </ul>
+          <ion-button expand="block" routerLink="/scanner">Abrir scanner</ion-button>
           <ion-button expand="block" routerLink="/profile">Editar perfil</ion-button>
         </ion-card-content>
       </ion-card>

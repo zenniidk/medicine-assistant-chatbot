@@ -48,6 +48,25 @@ export interface ProfilePayload {
   password?: string;
 }
 
+export interface ScanResponse {
+  ok: boolean;
+  model: string;
+  generated_by: 'rules' | 'ollama';
+  ai_available: boolean;
+  ai_error: string | null;
+  obsidian_files: string[];
+  medicine: {
+    id: number;
+    name: string;
+    aliases: string | null;
+    general_warning: string;
+  } | null;
+  result_level: 'safe' | 'warning' | 'danger';
+  rule_message: string;
+  ai_message: string;
+  saved: boolean;
+}
+
 @Injectable({ providedIn: 'root' })
 export class Auth {
   private readonly tokenKey = 'medicinescan_token';
@@ -105,6 +124,14 @@ export class Auth {
     return this.http.delete<{ ok: boolean; message: string }>(`${this.apiUrl}/profile.php`, {
       headers: this.authHeaders(),
     }).pipe(tap(() => this.clearSession()));
+  }
+
+  scanMedicine(ocrText: string): Observable<ScanResponse> {
+    return this.http.post<ScanResponse>(
+      `${this.apiUrl}/ai_scan.php`,
+      { ocr_text: ocrText },
+      { headers: this.authHeaders() }
+    );
   }
 
   isAuthenticated(): boolean {

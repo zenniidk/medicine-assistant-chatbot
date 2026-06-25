@@ -1,0 +1,189 @@
+.scanner-shell {
+  width: min(920px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 28px 0 44px;
+}
+
+.scanner-hero {
+  margin-bottom: 20px;
+}
+
+.scanner-hero h1 {
+  margin: 12px 0 8px;
+  color: #064e3b;
+  font-size: 36px;
+  font-weight: 850;
+}
+
+.scanner-hero p {
+  max-width: 760px;
+  margin: 0;
+  color: #356658;
+  line-height: 1.55;
+}
+
+.camera-frame {
+  position: relative;
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #d9f3e4;
+  border-radius: 8px;
+  background: #ecfdf5;
+}
+
+.camera-frame video,
+.camera-frame img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  background: #0f172a;
+}
+
+.camera-frame video.hidden {
+  display: none;
+}
+
+.camera-empty {
+  width: 100%;
+  min-height: 260px;
+  display: grid;
+  place-items: center;
+  color: #0b7f59;
+  font-weight: 850;
+}
+
+.camera-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.image-picker {
+  min-height: 36px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 14px;
+  border: 1px solid var(--medicine-green);
+  border-radius: 8px;
+  color: #0b7f59;
+  font-weight: 800;
+  cursor: pointer;
+  background: #f0fdf4;
+}
+
+.image-picker input {
+  display: none;
+}
+
+.ocr-progress {
+  display: block;
+  margin-top: 12px;
+  color: #0b7f59;
+  font-weight: 800;
+}
+
+ion-textarea {
+  --background: #f0fdf4;
+  --padding-start: 14px;
+  --padding-end: 14px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  border-radius: 8px;
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 16px;
+}
+
+.message {
+  text-align: center;
+  font-weight: 800;
+}
+
+.result-card {
+  border-top: 4px solid #16a34a;
+}
+
+.result-card.warning {
+  border-top-color: #d97706;
+}
+
+.result-card.danger {
+  border-top-color: #dc2626;
+}
+
+.level-badge {
+  width: fit-content;
+  display: inline-flex;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #064e3b;
+  background: #dcfce7;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.warning .level-badge {
+  color: #7c2d12;
+  background: #ffedd5;
+}
+
+.danger .level-badge {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.result-card h2 {
+  margin: 16px 0 6px;
+  color: #064e3b;
+  font-size: 17px;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 18px;
+  padding: 12px;
+  border: 1px solid #d9f3e4;
+  border-radius: 8px;
+  background: #f8fffb;
+}
+
+.meta-grid span,
+.meta-grid strong {
+  display: block;
+}
+
+.meta-grid span {
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.meta-grid strong {
+  color: #064e3b;
+}
+
+@media (max-width: 640px) {
+  .scanner-hero h1 {
+    font-size: 30px;
+  }
+
+  .camera-actions ion-button,
+  .image-picker {
+    width: 100%;
+  }
+
+  .meta-grid {
+    grid-template-columns: 1fr;
+  }
+}
