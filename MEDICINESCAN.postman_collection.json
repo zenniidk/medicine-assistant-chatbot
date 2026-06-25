@@ -1,0 +1,321 @@
+{
+  "info": {
+    "name": "MEDICINESCAN API",
+    "description": "Coleccion para probar las APIs locales de MEDICINESCAN en Postman.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "manual_demo",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "Manual123",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health.php",
+          "host": ["{{base_url}}"],
+          "path": ["health.php"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('API responde OK', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().ok).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Crear cuenta",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"postman_demo@medicinescan.local\",\n  \"full_name\": \"Usuario Postman\",\n  \"username\": \"postman_demo\",\n  \"password\": \"Postman123\",\n  \"age\": 21,\n  \"sex\": \"Prefiero no decir\",\n  \"allergies\": \"Penicilina\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/signup.php",
+          "host": ["{{base_url}}"],
+          "path": ["signup.php"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Cuenta creada o ya existente', function () {",
+              "  pm.expect([201, 409]).to.include(pm.response.code);",
+              "});",
+              "if (pm.response.code === 201) {",
+              "  const json = pm.response.json();",
+              "  pm.collectionVariables.set('token', json.token);",
+              "  pm.collectionVariables.set('username', 'postman_demo');",
+              "  pm.collectionVariables.set('password', 'Postman123');",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Login",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/login.php",
+          "host": ["{{base_url}}"],
+          "path": ["login.php"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Login correcto', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().ok).to.eql(true);",
+              "});",
+              "const json = pm.response.json();",
+              "pm.collectionVariables.set('token', json.token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Consultar perfil",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/profile.php",
+          "host": ["{{base_url}}"],
+          "path": ["profile.php"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Perfil consultado', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().user).to.have.property('username');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Actualizar perfil",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"postman_demo@medicinescan.local\",\n  \"full_name\": \"Usuario Postman Actualizado\",\n  \"username\": \"postman_demo\",\n  \"age\": 22,\n  \"sex\": \"Prefiero no decir\",\n  \"allergies\": \"Penicilina, Ibuprofeno\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/profile.php",
+          "host": ["{{base_url}}"],
+          "path": ["profile.php"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Perfil actualizado', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().message).to.eql('Perfil actualizado');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Subir foto de perfil",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "photo",
+              "type": "file",
+              "src": []
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{base_url}}/profile_photo.php",
+          "host": ["{{base_url}}"],
+          "path": ["profile_photo.php"]
+        },
+        "description": "En Postman selecciona manualmente una imagen JPG, PNG o WebP menor a 2 MB en el campo photo."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Foto subida', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().user.profile_photo_url).to.not.eql(null);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Eliminar cuenta",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/profile.php",
+          "host": ["{{base_url}}"],
+          "path": ["profile.php"]
+        },
+        "description": "Elimina definitivamente la cuenta autenticada. Usalo solo con usuarios de prueba."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Cuenta eliminada', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().message).to.eql('Cuenta eliminada');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          },
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/logout.php",
+          "host": ["{{base_url}}"],
+          "path": ["logout.php"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Sesion cerrada', function () {",
+              "  pm.response.to.have.status(200);",
+              "  pm.expect(pm.response.json().message).to.eql('Sesion cerrada');",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

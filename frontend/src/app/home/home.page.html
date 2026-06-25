@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>MEDICINESCAN</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/profile">Perfil</ion-button>
+      <ion-button (click)="logout()">Salir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <main class="home-shell">
+    <section class="hero">
+      <span class="app-pill">Modulo 2</span>
+      <h1>Perfil conectado y listo para editar</h1>
+      <p>La app lee tus datos desde la API PHP y permite editar informacion personal, alergias y foto.</p>
+    </section>
+
+    <section class="dashboard-grid">
+      <ion-card>
+        <ion-card-header>
+          <div class="profile-heading">
+            <img *ngIf="user?.profile_photo_url; else initials" [src]="user?.profile_photo_url" alt="Foto de perfil">
+            <ng-template #initials>
+              <span>{{ userInitials }}</span>
+            </ng-template>
+          </div>
+          <ion-card-title>{{ user?.full_name || 'Usuario' }}</ion-card-title>
+          <ion-card-subtitle>@{{ user?.username }}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <dl>
+            <div><dt>Correo</dt><dd>{{ user?.email }}</dd></div>
+            <div><dt>Edad</dt><dd>{{ user?.age }}</dd></div>
+            <div><dt>Sexo</dt><dd>{{ user?.sex }}</dd></div>
+            <div><dt>Alergias</dt><dd>{{ user?.allergies }}</dd></div>
+          </dl>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="module-card">
+        <ion-card-header>
+          <ion-card-title>Siguientes modulos</ion-card-title>
+          <ion-card-subtitle>Construccion gradual</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ul>
+            <li><strong>Perfil:</strong> edicion de datos, alergias y foto.</li>
+            <li><strong>Scanner:</strong> camara, OCR y alertas.</li>
+            <li><strong>AR:</strong> capa visual para resultados.</li>
+          </ul>
+          <ion-button expand="block" routerLink="/profile">Editar perfil</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </section>
+  </main>
+</ion-content>
