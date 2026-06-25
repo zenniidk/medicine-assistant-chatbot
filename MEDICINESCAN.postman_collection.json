@@ -247,48 +247,7 @@
       ]
     },
     {
-      "name": "7. Scanner con Obsidian y Ollama",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{token}}"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"ocr_text\": \"Ibuprofeno 400 mg tabletas\"\n}"
-        },
-        "url": {
-          "raw": "{{base_url}}/ai_scan.php",
-          "host": ["{{base_url}}"],
-          "path": ["ai_scan.php"]
-        },
-        "description": "Analiza texto OCR usando reglas locales, notas Markdown de backend/Obsidian y Ollama qwen3:8b si esta disponible."
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Escaneo analizado', function () {",
-              "  pm.response.to.have.status(200);",
-              "  pm.expect(pm.response.json()).to.have.property('result_level');",
-              "  pm.expect(pm.response.json()).to.have.property('ai_message');",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "8. Eliminar cuenta",
+      "name": "7. Eliminar cuenta",
       "request": {
         "method": "DELETE",
         "header": [
@@ -324,7 +283,7 @@
       ]
     },
     {
-      "name": "9. Logout",
+      "name": "8. Logout",
       "request": {
         "method": "POST",
         "header": [

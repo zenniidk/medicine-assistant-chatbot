@@ -33,7 +33,7 @@ if errorlevel 1 (
 )
 
 echo.
-echo [3/4] Revisando frontend en puerto 8100...
+echo [3/3] Revisando frontend en puerto 8100...
 powershell -NoProfile -ExecutionPolicy Bypass -Command "if (Get-NetTCPConnection -LocalPort 8100 -State Listen -ErrorAction SilentlyContinue) { exit 0 } else { exit 1 }"
 if errorlevel 1 (
   echo Frontend no esta activo. Abriendo http://127.0.0.1:8100 ...
@@ -43,28 +43,9 @@ if errorlevel 1 (
 )
 
 echo.
-echo [4/4] Revisando Ollama en puerto 11434...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "if (Get-NetTCPConnection -LocalPort 11434 -State Listen -ErrorAction SilentlyContinue) { exit 0 } else { exit 1 }"
-if errorlevel 1 (
-  where ollama >nul 2>nul
-  if errorlevel 1 (
-    echo Ollama no esta en PATH. Si usaras IA, abre Ollama manualmente.
-  ) else (
-    echo Ollama no esta activo. Abriendo ollama serve...
-    start "MEDICINESCAN Ollama 11434" cmd /k "ollama serve"
-  )
-) else (
-  echo Ollama ya esta activo en el puerto 11434.
-)
-
-echo.
 echo Espera unos segundos y abre:
 echo   Frontend: http://127.0.0.1:8100
 echo   API:      http://127.0.0.1:8000/api/health.php
-echo   Ollama:   http://127.0.0.1:11434
-echo.
-echo Para usar IA con Qwen ejecuta una vez:
-echo   ollama pull qwen3:8b
 echo.
 echo Puedes cerrar esta ventana. Las ventanas de Backend y Frontend deben quedarse abiertas mientras uses la app.
 pause

@@ -18,11 +18,6 @@ const routes: Routes = [
     loadChildren: () => import('./profile/profile.module').then(m => m.ProfilePageModule),
   },
   {
-    path: 'scanner',
-    canActivate: [authGuard],
-    loadChildren: () => import('./scanner/scanner.module').then(m => m.ScannerPageModule),
-  },
-  {
     path: '',
     redirectTo: 'auth',
     pathMatch: 'full',
