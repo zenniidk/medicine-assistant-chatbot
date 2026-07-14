@@ -1,0 +1,66 @@
+@import "@ionic/angular/css/core.css";
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+body {
+  background: #f3fbf6;
+}
+
+ion-content {
+  --background: #f3fbf6;
+}
+
+ion-button {
+  --background: var(--medicine-green);
+  --background-hover: var(--medicine-green-dark);
+  --background-activated: var(--medicine-green-dark);
+  --color: #ffffff;
+  --border-radius: 8px;
+  font-weight: 800;
+  text-transform: none;
+}
+
+ion-segment {
+  --background: #e8f8ef;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+ion-segment-button {
+  --color: #166534;
+  --color-checked: #ffffff;
+  --indicator-color: var(--medicine-green);
+  --border-radius: 7px;
+  font-weight: 800;
+}
+
+ion-card {
+  border: 1px solid #d9f3e4;
+  border-radius: 8px;
+  box-shadow: 0 12px 34px rgba(15, 127, 89, 0.10);
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #0f172a;
+  border-bottom: 1px solid #d9f3e4;
+}
+
+.app-pill {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: #0b7f59;
+  font-size: 13px;
+  font-weight: 800;
+  background: #dcfce7;
+}

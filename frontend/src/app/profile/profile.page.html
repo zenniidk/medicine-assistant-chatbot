@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home">Inicio</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <main class="profile-shell">
+    <section class="profile-summary">
+      <div class="avatar">
+        <img *ngIf="photoUrl; else initials" [src]="photoUrl" alt="Foto de perfil">
+        <ng-template #initials><span>{{ userInitials }}</span></ng-template>
+      </div>
+      <div>
+        <span class="app-pill">Modulo de perfil</span>
+        <h1>{{ user?.full_name || 'Tu perfil' }}</h1>
+        <p>@{{ user?.username || 'usuario' }}</p>
+      </div>
+    </section>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Foto de usuario</ion-card-title>
+        <ion-card-subtitle>JPG, PNG o WebP menor a 2 MB</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <label class="photo-picker">
+          <input type="file" accept="image/png,image/jpeg,image/webp" (change)="choosePhoto($event)">
+          <span>{{ uploadingPhoto ? 'Subiendo foto...' : (selectedPhotoName || 'Seleccionar foto') }}</span>
+        </label>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Datos personales</ion-card-title>
+        <ion-card-subtitle>Actualiza datos y alergias</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
+          <ion-list lines="full">
+            <ion-item><ion-input label="Nombre completo" labelPlacement="stacked" formControlName="full_name"></ion-input></ion-item>
+            <ion-item><ion-input label="Usuario" labelPlacement="stacked" formControlName="username"></ion-input></ion-item>
+            <ion-item><ion-input label="Correo electronico" labelPlacement="stacked" type="email" formControlName="email"></ion-input></ion-item>
+            <ion-item><ion-input label="Edad" labelPlacement="stacked" type="number" formControlName="age"></ion-input></ion-item>
+            <ion-item>
+              <ion-select label="Sexo" labelPlacement="stacked" formControlName="sex" interface="popover">
+                <ion-select-option value="Femenino">Femenino</ion-select-option>
+                <ion-select-option value="Masculino">Masculino</ion-select-option>
+                <ion-select-option value="Otro">Otro</ion-select-option>
+                <ion-select-option value="Prefiero no decir">Prefiero no decir</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item><ion-textarea label="Alergias" labelPlacement="stacked" rows="3" formControlName="allergies"></ion-textarea></ion-item>
+            <ion-item><ion-input label="Nueva contrasena" labelPlacement="stacked" type="password" formControlName="password"></ion-input></ion-item>
+          </ion-list>
+          <ion-note>Deja la contrasena vacia si no quieres cambiarla.</ion-note>
+          <ion-button type="submit" expand="block" [disabled]="loading">{{ loading ? 'Guardando...' : 'Guardar cambios' }}</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-text *ngIf="message" [color]="messageType === 'success' ? 'success' : 'danger'">
+      <p class="message">{{ message }}</p>
+    </ion-text>
+
+    <ion-card class="danger-card">
+      <ion-card-header>
+        <ion-card-title>Eliminar cuenta</ion-card-title>
+        <ion-card-subtitle>Esta accion borra el usuario y cierra la sesion.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button
+          expand="block"
+          color="danger"
+          fill="outline"
+          [disabled]="deletingAccount"
+          (click)="deleteAccount()"
+        >
+          {{ deletingAccount ? 'Eliminando...' : 'Eliminar mi cuenta' }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </main>
+</ion-content>

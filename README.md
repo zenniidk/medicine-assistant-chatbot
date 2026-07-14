@@ -1,45 +1,81 @@
-# MEDICINESCAN — avance 1
+# MEDICINESCAN
 
-MVP académico desarrollado con PHP, MySQL, HTML, CSS y JavaScript para ejecutarse en XAMPP.
+Aplicacion academica para escaneo y asistencia sobre medicamentos. Esta version separa el proyecto en:
 
-## Qué incluye
+- `backend/`: API PHP conectada a MySQL.
+- `frontend/`: frontend Ionic/Angular.
+- `Docs/`: documentacion y manual de usuario.
+- `backend/Obsidian/`: carpeta preparada para personalidad/conocimiento de IA.
 
-- Registro de usuario.
-- Inicio y cierre de sesión.
-- Perfil con nombre, edad, sexo y alergias.
-- CRUD básico: crear, consultar, actualizar y eliminar la cuenta.
-- Home con acceso al escáner.
-- Cámara web con carga alternativa de fotografía.
-- OCR con Tesseract.js para reconocer Omeprazol, Paracetamol, Aspirina, Olanzapina e Ibuprofeno.
-- Burbuja tipo AR con estado verde, amarillo o rojo.
+## Requisitos
 
-## Instalación con XAMPP
+- XAMPP con MySQL.
+- PHP de XAMPP.
+- Node.js y npm.
+- Base de datos MySQL `medicinescan`.
 
-1. Copia la carpeta `MEDICINESCAN` dentro de `C:\xampp\htdocs\`.
-2. Abre XAMPP e inicia **Apache** y **MySQL**.
-3. Entra a `http://localhost/phpmyadmin`.
-4. Selecciona **Importar** y carga `database/medicinescan.sql`.
-5. Abre `http://localhost/MEDICINESCAN/`.
+## Levantar el proyecto
 
-La configuración predeterminada usa:
+La forma rapida es ejecutar:
 
-- Servidor: `localhost`
-- Base de datos: `medicinescan`
-- Usuario: `root`
-- Contraseña: vacía
+```bat
+iniciar_medicinescan.bat
+```
 
-Si XAMPP tiene otros datos, edita `config/database.php`.
+Esto revisa/levanta:
 
-## Nota sobre la cámara
+- MySQL en `3306`
+- Backend en `http://127.0.0.1:8000`
+- Frontend en `http://127.0.0.1:8100`
 
-El navegador normalmente permite la cámara en `localhost`. El OCR descarga Tesseract.js desde internet la primera vez. También se puede elegir una fotografía o usar la prueba manual.
+Luego abre:
 
-## Importante
+```text
+http://127.0.0.1:8100
+```
 
-El resultado del escáner es una demostración, no una recomendación médica real. Para determinar seguridad se necesitan dosis, enfermedades, embarazo, interacciones, presentación y valoración profesional, además de edad, sexo y alergias.
+## Comandos manuales
 
-## Documentación
+Backend:
 
-- Consulta `docs/DOCUMENTACION_TECNICA.md` para conocer la arquitectura, los flujos, la base de datos y la función de cada carpeta y archivo.
-- Consulta `docs/API.md` para probar login, registro, home, perfil y cámara desde Postman o Ionic.
-- Consulta `docs/PLAN_DEL_PROYECTO.md` para ver el reparto sugerido del trabajo y la etapa Ionic/Angular.
+```bat
+cd backend
+C:\xampp\php\php.exe -S 127.0.0.1:8000 -t .
+```
+
+Frontend:
+
+```bat
+cd frontend
+npm install
+npm start -- --host 127.0.0.1 --port 8100
+```
+
+## APIs principales
+
+Base URL:
+
+```text
+http://127.0.0.1:8000/api
+```
+
+Endpoints:
+
+- `GET /health.php`
+- `POST /signup.php`
+- `POST /login.php`
+- `GET /profile.php`
+- `PUT /profile.php`
+- `DELETE /profile.php`
+- `POST /profile_photo.php`
+- `POST /logout.php`
+
+La coleccion de Postman esta en:
+
+```text
+MEDICINESCAN.postman_collection.json
+```
+
+## Nota medica
+
+Este proyecto es una demostracion academica. No sustituye la valoracion de un profesional de salud.

@@ -1,0 +1,96 @@
+.home-shell {
+  width: min(1080px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 30px 0;
+}
+
+.hero {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #064e3b;
+  font-size: 38px;
+  line-height: 1.08;
+  font-weight: 850;
+}
+
+.hero p {
+  max-width: 700px;
+  margin: 0;
+  color: #356658;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+ion-toolbar {
+  --background: #ffffff;
+  --color: #0f172a;
+}
+
+.profile-heading {
+  width: 74px;
+  height: 74px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #0b7f59, #22c55e);
+}
+
+.profile-heading img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+dl {
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+dt {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+dd {
+  margin: 0;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+ul {
+  display: grid;
+  gap: 12px;
+  padding-left: 18px;
+  margin: 0 0 18px;
+  color: #334155;
+  line-height: 1.45;
+}
+
+.module-card {
+  border-top: 4px solid var(--medicine-green);
+}
+
+@media (max-width: 760px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

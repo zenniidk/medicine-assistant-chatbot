@@ -1,0 +1,66 @@
+<ion-content [fullscreen]="true">
+  <main class="auth-shell">
+    <section class="intro">
+      <span class="app-pill">MEDICINESCAN</span>
+      <h1>Escaneo seguro con perfil de alergias</h1>
+      <p>Frontend limpio en Ionic/Angular conectado a la API PHP y MySQL.</p>
+    </section>
+
+    <section class="auth-card">
+      <ion-segment [value]="mode" (ionChange)="setMode($event.detail.value === 'signup' ? 'signup' : 'login')">
+        <ion-segment-button value="login">
+          <ion-label>Entrar</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="signup">
+          <ion-label>Crear cuenta</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <form *ngIf="mode === 'login'" [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+        <h2>Bienvenido</h2>
+        <ion-item>
+          <ion-input label="Usuario o correo" labelPlacement="stacked" formControlName="username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Contrasena" labelPlacement="stacked" type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-button expand="block" type="submit" [disabled]="loading">{{ loading ? 'Entrando...' : 'Entrar' }}</ion-button>
+      </form>
+
+      <form *ngIf="mode === 'signup'" [formGroup]="signupForm" (ngSubmit)="submitSignup()">
+        <h2>Crear cuenta</h2>
+        <ion-item>
+          <ion-input label="Nombre completo" labelPlacement="stacked" formControlName="full_name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Usuario" labelPlacement="stacked" formControlName="username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Correo" labelPlacement="stacked" type="email" formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Contrasena" labelPlacement="stacked" type="password" formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Edad" labelPlacement="stacked" type="number" formControlName="age"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Sexo" labelPlacement="stacked" formControlName="sex" interface="popover">
+            <ion-select-option value="Femenino">Femenino</ion-select-option>
+            <ion-select-option value="Masculino">Masculino</ion-select-option>
+            <ion-select-option value="Otro">Otro</ion-select-option>
+            <ion-select-option value="Prefiero no decir">Prefiero no decir</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Alergias" labelPlacement="stacked" formControlName="allergies"></ion-input>
+        </ion-item>
+        <ion-button expand="block" type="submit" [disabled]="loading">{{ loading ? 'Creando...' : 'Crear cuenta' }}</ion-button>
+      </form>
+
+      <ion-text *ngIf="message" [color]="messageType === 'success' ? 'success' : 'danger'">
+        <p class="message">{{ message }}</p>
+      </ion-text>
+    </section>
+  </main>
+</ion-content>
